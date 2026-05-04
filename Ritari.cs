@@ -21,7 +21,7 @@ namespace ritaripeli
 
 		public void OtaVahinkoa(int määrä)
 		{
-
+			Osumapisteet -= määrä;
 		}
 
 	}

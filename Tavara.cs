@@ -12,5 +12,18 @@ namespace ritaripeli
 	/// </summary>
 	internal abstract class Tavara
 	{
-	}
+        public string TavaraNimi { get { return tavaraNimi; } set => tavaraNimi = value; }
+
+        protected string tavaraNimi;
+
+        public Tavara(string tavaraNimi)
+        {
+            this.tavaraNimi = tavaraNimi;
+        }
+
+        public override string ToString()
+        {
+            return tavaraNimi;
+        }
+    }
 }

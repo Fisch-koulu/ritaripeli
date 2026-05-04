@@ -32,9 +32,24 @@ namespace ritaripeli
 				Print.WriteColor("Kultaa: ", ConsoleColor.White);
 				Print.LineColor($"{pelaaja.Rahapussi.Rahoja} kr", ConsoleColor.Yellow);
 				// TODO anna pelaajan valita meneekö kauppaan vai taistelemaan vai käyttääkö tavaroita Repusta
+				Console.WriteLine("Valitse toiminto:\r\n1 Mene nuolikauppaan\r\n2 Mene ravintolaan\r\n3 Lähde taisteluun\r\n4 Käytä repussa olevia esineitä")
 				string valinta = Console.ReadLine();
 
+				switch (valinta)
+				{
+					case "1":
+						
+						break;
+					case "2":
 
+						break;
+					case "3":
+
+						break;
+					case "4":
+
+						break;
+				}
 
 				// Tarkista onko peli päättynyt
 			}
@@ -65,6 +80,7 @@ namespace ritaripeli
 			// TODO anna pelaajan valita mihin kauppaan pelaaja menee
 			// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
 			// yrittää ostaa
+
 			// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
 		}
 	}
