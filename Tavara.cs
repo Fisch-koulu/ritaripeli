@@ -26,4 +26,9 @@ namespace ritaripeli
             return tavaraNimi;
         }
     }
+
+    internal class Jousi : Tavara
+    {
+        public Jousi() : base("Jousi") { }
+    }
 }
