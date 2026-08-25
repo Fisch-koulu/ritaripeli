@@ -53,7 +53,7 @@ namespace ritaripeli
 		{
 			tavarat = new List<TavaraJaHinta>();
 
-			TavaraJaHinta tavara1 = new TavaraJaHinta(new Jousi(), 10);
+			TavaraJaHinta tavara1 = new TavaraJaHinta(new Jousi(Jousi.Aloittelija), 10);
 			tavarat.Add(tavara1);
 		}
 
