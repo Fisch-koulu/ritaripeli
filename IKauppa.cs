@@ -53,7 +53,7 @@ namespace ritaripeli
 		{
 			tavarat = new List<TavaraJaHinta>();
 
-			TavaraJaHinta tavara1 = new TavaraJaHinta(new Jousi(Jousi.Aloittelija), 10);
+			TavaraJaHinta tavara1 = new TavaraJaHinta(new Jousi(), 10);
 			tavarat.Add(tavara1);
 		}
 
@@ -78,5 +78,40 @@ namespace ritaripeli
 			Console.WriteLine("Sinulla ei ole tarpeeksi rahaa.");
 			return null;
 		}
+
+		internal class RuokaKauppa : IKauppa
+		{
+            private List<TavaraJaHinta> tavarat;
+			
+			public RuokaKauppa()
+			{
+                tavarat = new List<TavaraJaHinta>();
+
+                TavaraJaHinta tavara1 = new TavaraJaHinta(new Jousi(), 10);
+                tavarat.Add(tavara1);
+            }
+
+            public List<TavaraJaHinta> ListaaTavarat()
+            {
+                for (int i = 0; i < tavarat.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}: {tavarat[i].Esine} {tavarat[i].Hinta} kr");
+                }
+                return tavarat;
+            }
+
+            public Tavara? OstaTavara(int valittuTavara, Lompakko rahapussi)
+            {
+                valittuTavara--;
+                //katsoo voiko pelaaja ostaa tavaran
+                if (rahapussi.Rahoja >= tavarat[valittuTavara].Hinta)
+                {
+                    return tavarat[valittuTavara].Esine;
+                }
+                //jos ei voi, funktio antaa tyhjän
+                Console.WriteLine("Sinulla ei ole tarpeeksi rahaa.");
+                return null;
+            }
+        }
 	}
 }

@@ -76,8 +76,11 @@ namespace ritaripeli
 		{
 			// TODO anna pelaajan valita mihin kauppaan pelaaja menee
 			// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
-			// yrittää ostaa
 			kauppa.ListaaTavarat();
+			int kauppaValinta = int.Parse(Console.ReadLine());
+
+			// yrittää ostaa
+			kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi);
 
 			// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
 		}

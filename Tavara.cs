@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ritaripeli
 {
-	/// <summary>
-	/// Tästä luokasta peritään kaikki erilaiset 
-	/// tavarat joita voi säilyttää repussa
-	/// </summary>
-	internal abstract class Tavara
-	{
+    /// <summary>
+    /// Tästä luokasta peritään kaikki erilaiset 
+    /// tavarat joita voi säilyttää repussa
+    /// </summary>
+    internal abstract class Tavara
+    {
         public string TavaraNimi { get { return tavaraNimi; } set => tavaraNimi = value; }
 
         protected string tavaraNimi;
@@ -44,47 +44,73 @@ namespace ritaripeli
             kanansulka,
             kotkansulka
         }
-        public float Pituus
-        {
-            get { return pituus; }
-            set
-            {
-                pituus = value;
-
-                if (pituus < 60)
-                    pituus = 60.0f;
-                if (pituus > 100.0f)
-                    pituus = 100.0f;
-            }
-        }
 
         private Karki karki;
         private Pera pera;
-        private float pituus;
 
-        public Jousi(Karki karki, Pera pera, float pituus) : base("Jousi") 
-        {
-            this.karki = karki;
-            this.pera = pera;
-            this.pituus = pituus;
-        }
+        public Jousi() : base("Jousi") { }
 
-        public static Jousi Aloittelija()
+        /// <summary>
+        /// luo uuden aloitelija nuolen
+        /// </summary>
+        /// <returns></returns>
+        public static Jousi LuoAloittelijaNuoli()
         {
-            Jousi uusi = new Jousi(Karki.timantti, Pera.lehti, 60f);
+            Jousi uusi = new Jousi();
+            uusi.karki = Karki.puu;
+            uusi.pera = Pera.lehti;
             return uusi;
         }
 
+        /// <summary>
+        /// luo uuden perus nuolen
+        /// </summary>
+        /// <returns></returns>
         public static Jousi LuoPerusNuoli()
         {
-            Jousi uus = new Jousi(Karki.teräs, Pera.kanansulka, 85f);
-            return uus;
+            Jousi uusi = new Jousi();
+            uusi.karki = Karki.teräs;
+            uusi.pera = Pera.kanansulka;
+            return uusi;
         }
 
-        public static Jousi LuoAloittelijaNuoli()
+        /// <summary>
+        /// luo uuden eliitti nuolen
+        /// </summary>
+        /// <returns></returns>
+        public static Jousi LuoEliittiNuoli()
         {
-            Jousi uus = new Jousi(Karki.puu, Pera.lehti, 70f);
-            return uus;
+            Jousi uusi = new Jousi();
+            uusi.karki = Karki.timantti;
+            uusi.pera = Pera.kotkansulka;
+            return uusi;
         }
+    }
+
+    internal class Ruoka : Tavara
+    {
+        //parametrit
+        //mitä ruuassa on
+        public enum Paaraaka
+        {
+            nautaa,
+            kanaa,
+            kasviksia
+        }
+        public enum Lisuke
+        {
+            perunaa,
+            riisiä,
+            pastaa
+        }
+        public enum Kastike
+        {
+            curry,
+            hapanimelä,
+            pippuri,
+            chili
+        }
+
+        public Ruoka() : base("Ruoka") { }
     }
 }
