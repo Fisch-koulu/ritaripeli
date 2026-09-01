@@ -25,6 +25,13 @@ namespace ritaripeli
         {
             return tavaraNimi;
         }
+
+
+        /// <summary>
+        /// Palauttaa Tavaran hinnan.
+        /// </summary>
+        /// <returns></returns>
+        public abstract int PalautaHinta();
     }
 
     ///luulen, että tämä tarkoittaa nuolia, mutta vahingossa käytettiin sanaa Jousi.
@@ -85,6 +92,39 @@ namespace ritaripeli
             uusi.pera = Pera.kotkansulka;
             return uusi;
         }
+
+        /// <summary>
+        /// Palauttaa nuolen hinnan.
+        /// </summary>
+        /// <returns></returns>
+        public override int PalautaHinta()
+        {
+            // Laske hinta kärjen ja perän mukaan
+
+            int hinta = 0;
+            switch (karki)
+            {
+                case Karki.puu:
+                    hinta += 3; break;
+                case Karki.teräs:
+                    hinta += 5; break;
+                case Karki.timantti:
+                    hinta += 50; break;
+                default: hinta += 0; break;
+            }
+            switch (pera)
+            {
+                case Pera.lehti:
+                    hinta += 0; break;
+                case Pera.kanansulka:
+                    hinta += 1; break;
+                case Pera.kotkansulka:
+                    hinta += 5; break;
+                default: hinta += 0; break;
+            }
+            return hinta;
+        }
+
     }
 
     internal class Ruoka : Tavara
@@ -112,5 +152,7 @@ namespace ritaripeli
         }
 
         public Ruoka() : base("Ruoka") { }
+
+        public override int PalautaHinta() { return 0; }
     }
 }

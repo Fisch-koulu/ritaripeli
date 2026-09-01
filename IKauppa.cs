@@ -45,6 +45,9 @@ namespace ritaripeli
 		}
 	}
 
+	/// <summary>
+	/// Tekee nuolikaupan.
+	/// </summary>
 	internal class NuoliKauppa : IKauppa
 	{
 		private List<TavaraJaHinta> tavarat;
@@ -53,7 +56,10 @@ namespace ritaripeli
 		{
 			tavarat = new List<TavaraJaHinta>();
 
-			TavaraJaHinta tavara1 = new TavaraJaHinta(new Jousi(), 10);
+			TavaraJaHinta tavara1 = new TavaraJaHinta(
+				Jousi.LuoAloittelijaNuoli(), Jousi.LuoAloittelijaNuoli().PalautaHinta());
+			TavaraJaHinta tavara2 = new TavaraJaHinta(
+				Jousi.LuoPerusNuoli(), Jousi.LuoPerusNuoli().PalautaHinta());
 			tavarat.Add(tavara1);
 		}
 
@@ -72,6 +78,9 @@ namespace ritaripeli
 			//katsoo voiko pelaaja ostaa tavaran
 			if (rahapussi.Rahoja >= tavarat[valittuTavara].Hinta)
 			{
+				//Poista rahat pelaajalta.
+				rahapussi.OtaRahaa(tavarat[valittuTavara].Hinta);
+				//Palauta esine.
 				return tavarat[valittuTavara].Esine;
 			}
 			//jos ei voi, funktio antaa tyhjän
@@ -106,6 +115,7 @@ namespace ritaripeli
                 //katsoo voiko pelaaja ostaa tavaran
                 if (rahapussi.Rahoja >= tavarat[valittuTavara].Hinta)
                 {
+                    rahapussi.OtaRahaa(tavarat[valittuTavara].Hinta);
                     return tavarat[valittuTavara].Esine;
                 }
                 //jos ei voi, funktio antaa tyhjän
