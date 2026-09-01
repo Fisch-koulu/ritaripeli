@@ -60,7 +60,12 @@ namespace ritaripeli
 				Jousi.LuoAloittelijaNuoli(), Jousi.LuoAloittelijaNuoli().PalautaHinta());
 			TavaraJaHinta tavara2 = new TavaraJaHinta(
 				Jousi.LuoPerusNuoli(), Jousi.LuoPerusNuoli().PalautaHinta());
+			TavaraJaHinta tavara3 = new TavaraJaHinta(
+				Jousi.LuoEliittiNuoli(), Jousi.LuoEliittiNuoli().PalautaHinta());
+
 			tavarat.Add(tavara1);
+			tavarat.Add(tavara2);
+			tavarat.Add(tavara3);
 		}
 
 		public List<TavaraJaHinta> ListaaTavarat()
@@ -88,6 +93,9 @@ namespace ritaripeli
 			return null;
 		}
 
+		/// <summary>
+		/// tekee ruokakaupan.
+		/// </summary>
 		internal class RuokaKauppa : IKauppa
 		{
             private List<TavaraJaHinta> tavarat;
@@ -96,7 +104,7 @@ namespace ritaripeli
 			{
                 tavarat = new List<TavaraJaHinta>();
 
-                TavaraJaHinta tavara1 = new TavaraJaHinta(new Jousi(), 10);
+                TavaraJaHinta tavara1 = new TavaraJaHinta(new Ruoka(), 10);
                 tavarat.Add(tavara1);
             }
 

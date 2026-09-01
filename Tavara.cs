@@ -109,7 +109,7 @@ namespace ritaripeli
                 case Karki.teräs:
                     hinta += 5; break;
                 case Karki.timantti:
-                    hinta += 50; break;
+                    hinta += 10; break;
                 default: hinta += 0; break;
             }
             switch (pera)
