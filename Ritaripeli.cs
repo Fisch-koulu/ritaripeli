@@ -40,10 +40,17 @@ namespace ritaripeli
 					"\r\n2 Mene ravintolaan" +
 					"\r\n3 Lähde taisteluun" +
 					"\r\n4 Käytä repussa olevia esineitä");
-				string valinta = Console.ReadLine();
+				int valinta = int.Parse(Console.ReadLine()) - 1;
 
-
-				KauppaTila(kaupat[0]);
+				if (valinta <= 1)
+				{
+					KauppaTila(kaupat[valinta]);
+				}
+				else if (valinta == 2)
+				{
+					TaisteluTila();
+				}
+				//ja repputila
 				// Tarkista onko peli päättynyt
 			}
 		}
@@ -74,13 +81,29 @@ namespace ritaripeli
 
 		public void KauppaTila(IKauppa kauppa)
 		{
-			// TODO anna pelaajan valita mihin kauppaan pelaaja menee
-			// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
-			kauppa.ListaaTavarat();
-			int kauppaValinta = int.Parse(Console.ReadLine());
+            // TODO anna pelaajan valita mihin kauppaan pelaaja menee
+            Console.WriteLine("Valitse toiminto:" +
+                    "\r\n1 Osta mittatilausnuoli" +
+                    "\r\n2 Listaa kaupan tavarat" +
+                    "\r\n3 Osta tavara" +
+                    "\r\n4 Poistu");
 
-			// yrittää ostaa
-			kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi);
+			while (true)
+			{
+				// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
+				int kauppaValinta = int.Parse(Console.ReadLine());
+				switch (kauppaValinta)
+				{
+					case 1: break;
+					case 2:
+						kauppa.ListaaTavarat(); break;
+					case 3:
+                        // yrittää ostaa
+                        kauppaValinta = int.Parse(Console.ReadLine());
+                        kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi); return;
+					case 4: return;
+				}
+			}
 
 			// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
 		}
