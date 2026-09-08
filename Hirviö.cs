@@ -16,4 +16,19 @@ namespace ritaripeli
 		public abstract int AnnaVahinko();
 		public abstract void OtaVahinkoa(int määrä);
 	}
+
+	internal class Goblin : Hirviö
+	{
+		public Goblin() { }
+
+		public override int AnnaVahinko()
+		{
+			return 0;
+		}
+
+        public override void OtaVahinkoa(int määrä)
+		{
+			
+		}
+    }
 }

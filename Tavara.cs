@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -101,7 +102,7 @@ namespace ritaripeli
         {
             // Laske hinta kärjen ja perän mukaan
 
-            int hinta = 0;
+            /*int hinta = 0;
             switch (karki)
             {
                 case Karki.puu:
@@ -122,9 +123,45 @@ namespace ritaripeli
                     hinta += 5; break;
                 default: hinta += 0; break;
             }
-            return hinta;
+            //return hinta;*/
+            return Vahinko() * 2;
         }
 
+        public int Vahinko()
+        {
+            int vahinko = 0;
+            switch (karki)
+            {
+                case Karki.puu:
+                    vahinko += 1; break;
+                case Karki.teräs:
+                    vahinko += 2; break;
+                case Karki.timantti:
+                    vahinko += 3; break;
+                default: vahinko += 0; break;
+            }
+            switch (pera)
+            {
+                case Pera.lehti:
+                    vahinko += 0; break;
+                case Pera.kanansulka:
+                    vahinko += 1; break;
+                case Pera.kotkansulka:
+                    vahinko += 2; break;
+                default: vahinko += 0; break;
+            }
+            return vahinko;
+        }
+
+        public void AsetaKarki(Karki karki)
+        {
+            this.karki = karki;
+        }
+
+        public void AsetaPera(Pera pera)
+        {
+            this.pera = pera;
+        }
     }
 
     internal class Ruoka : Tavara

@@ -91,21 +91,54 @@ namespace ritaripeli
 			while (true)
 			{
 				// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
-				int kauppaValinta = int.Parse(Console.ReadLine());
-				switch (kauppaValinta)
+				int kauppaValinta = 0;
+				Valitse(kauppaValinta, 1, 4);
+				switch (Valitse(kauppaValinta, 1, 4))
 				{
 					case 1: break;
 					case 2:
+						//Listaa tavarat
 						kauppa.ListaaTavarat(); break;
 					case 3:
-                        // yrittää ostaa
+						//listaa tavarat varmuuden vuoksi
+                        kauppa.ListaaTavarat();
                         kauppaValinta = int.Parse(Console.ReadLine());
+                        // yrittää ostaa ja poistuu kaupasta oston tai ei oston jälkeen.
                         kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi); return;
-					case 4: return;
+					// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
+					case 4: return; //poistuu kaupasta
 				}
 			}
 
-			// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
 		}
+
+		public static int Valitse(int valinta, int min, int max, string virhe = "Vaihtoehto ei käy.")
+		{ 
+			while (true)
+			{
+				if (int.TryParse(Console.ReadLine(), out valinta))
+				{
+					{
+						if (valinta > min && valinta < max)
+						{
+							return valinta;
+						}
+					}
+				}
+				Console.WriteLine(virhe);
+			}
+		}
+
+		/*public static Tyyppi ValitseEnum<Tyyppi>() where Tyyppi : Enum
+		{
+			Type enumType = typeof(Tyyppi);
+			Console.WriteLine($"Vaihtoehdot {enumType.Name}");
+			string[] vaihtoehdot = Enum.GetNames( enumType );
+			for (int i =  0; i < vaihtoehdot.Length; i++)
+			{
+				Console.WriteLine($"{i+1}: {vaihtoehdot[i]}");
+			}
+			
+		}*/
 	}
 }
