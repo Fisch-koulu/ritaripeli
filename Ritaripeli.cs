@@ -40,8 +40,10 @@ namespace ritaripeli
 					"\r\n2 Mene ravintolaan" +
 					"\r\n3 Lähde taisteluun" +
 					"\r\n4 Käytä repussa olevia esineitä");
-				int valinta = int.Parse(Console.ReadLine()) - 1;
+				//pelaaja valitsee
+				int valinta = Valitse(1, 4) - 1;
 
+				//pelaaja on valinnut 1-4
 				if (valinta <= 1)
 				{
 					KauppaTila(kaupat[valinta]);
@@ -63,6 +65,7 @@ namespace ritaripeli
 			{
 				// TODO anna pelaajan valita toiminto:
 				// 1. hyökkää : aiheuta vahinkoa hirviölle
+
 				// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
 				// Jos pelaaja käyttää ruoka-annosta, lisää pelaajan osumapisteitä
 				// Jos pelaaja käyttää nuolta, ammu nuoli kohti vihollista
@@ -91,9 +94,8 @@ namespace ritaripeli
 			while (true)
 			{
 				// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
-				int kauppaValinta = 0;
-				Valitse(kauppaValinta, 1, 4);
-				switch (Valitse(kauppaValinta, 1, 4))
+				int kauppaValinta = Valitse(1, 4);
+				switch (kauppaValinta)
 				{
 					case 1: break;
 					case 2:
@@ -101,8 +103,8 @@ namespace ritaripeli
 						kauppa.ListaaTavarat(); break;
 					case 3:
 						//listaa tavarat varmuuden vuoksi
-                        kauppa.ListaaTavarat();
-                        kauppaValinta = int.Parse(Console.ReadLine());
+                        var Lista = kauppa.ListaaTavarat();
+                        kauppaValinta = Valitse(1, Lista.Count);
                         // yrittää ostaa ja poistuu kaupasta oston tai ei oston jälkeen.
                         kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi); return;
 					// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
@@ -112,14 +114,22 @@ namespace ritaripeli
 
 		}
 
-		public static int Valitse(int valinta, int min, int max, string virhe = "Vaihtoehto ei käy.")
+		/// <summary>
+		/// tarkistaa, että pelaaja antaa numeron ja numero on vaihtoehto.
+		/// </summary>
+		/// <param name="min"></param>
+		/// <param name="max"></param>
+		/// <param name="virhe">Ei tarvitse kirjoittaa virheviestiä.</param>
+		/// <returns></returns>
+		public static int Valitse(int min, int max, string? virhe = "Vaihtoehto ei käy.")
 		{ 
 			while (true)
 			{
+				int valinta;
 				if (int.TryParse(Console.ReadLine(), out valinta))
 				{
 					{
-						if (valinta > min && valinta < max)
+						if (valinta >= min && valinta <= max)
 						{
 							return valinta;
 						}

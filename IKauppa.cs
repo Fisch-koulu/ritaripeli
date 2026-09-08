@@ -86,6 +86,8 @@ namespace ritaripeli
 				//Poista rahat pelaajalta.
 				rahapussi.OtaRahaa(tavarat[valittuTavara].Hinta);
 				//Palauta esine.
+				Console.WriteLine($"Ostit tavaran {tavarat[valittuTavara].Esine}. " +
+					$"Käytit {tavarat[valittuTavara].Hinta} kr.");
 				return tavarat[valittuTavara].Esine;
 			}
 			//jos ei voi, funktio antaa tyhjän

@@ -13,7 +13,12 @@ namespace ritaripeli
 	{
 		public int Osumapisteet { get; set; }
 		public string Nimi { get; set; }
-		public abstract int AnnaVahinko();
+		public int Damage { get; set; }
+
+		public virtual int AnnaVahinko()
+		{
+			return Damage;
+		}
 		public abstract void OtaVahinkoa(int määrä);
 	}
 
@@ -23,12 +28,12 @@ namespace ritaripeli
 
 		public override int AnnaVahinko()
 		{
-			return 0;
+			return base.AnnaVahinko();
 		}
 
         public override void OtaVahinkoa(int määrä)
 		{
-			
-		}
+            Osumapisteet -= määrä;
+        }
     }
 }
