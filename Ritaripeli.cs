@@ -11,6 +11,7 @@ namespace ritaripeli
 		Ritari pelaaja;
 		List<Hirviö> hirviot;
 		List<IKauppa> kaupat;
+		int voitto = 50;
 		
 		public Ritaripeli()
 		{
@@ -53,8 +54,14 @@ namespace ritaripeli
 					TaisteluTila();
 				}
 				//ja repputila
+
 				// Tarkista onko peli päättynyt
+				if (pelaaja.Osumapisteet <= 0 || pelaaja.Rahapussi.Rahoja >= voitto)
+				{
+					break;
+				}
 			}
+			//jotain tekstiä
 		}
 
 		public void TaisteluTila()
@@ -63,20 +70,32 @@ namespace ritaripeli
 			Hirviö vastustaja = new Goblin();
 			while (vastustaja.Osumapisteet > 0 && pelaaja.Osumapisteet > 0)
 			{
-				// TODO anna pelaajan valita toiminto:
-				// 1. hyökkää : aiheuta vahinkoa hirviölle
-				// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
-				// Jos pelaaja käyttää ruoka-annosta, lisää pelaajan osumapisteitä
-				// Jos pelaaja käyttää nuolta, ammu nuoli kohti vihollista
-				// Jos pelaaja käyttää jotain muuta tavaraa, toimi valinnan mukaan
-				// 3. pakene : poistu TaisteluTilasta
 				int valinta = Valitse(1, 3);
+				switch (valinta)
+				{
+				// TODO anna pelaajan valita toiminto:
+					case 1:
+					// 1. hyökkää : aiheuta vahinkoa hirviölle
+						vastustaja.OtaVahinkoa(valinta);
+						break;
+					case 2:
+					// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
+					// Jos pelaaja käyttää ruoka-annosta, lisää pelaajan osumapisteitä
+					// Jos pelaaja käyttää nuolta, ammu nuoli kohti vihollista
+					// Jos pelaaja käyttää jotain muuta tavaraa, toimi valinnan mukaan
+						break;
+					case 3:
+					// 3. pakene : poistu TaisteluTilasta
+						Console.WriteLine("Pakenet taistelusta.");
+						return;
+				}
 
 				// TODO Jos hirviöllä on osumapisteitä jäljellä
 				if (vastustaja.Osumapisteet > 0)
 				{
 					// arvo hirviön tekemä vahinko ja vähennä se pelaajan osumapisteistä
-					
+					pelaaja.OtaVahinkoa(vastustaja.AnnaVahinko());
+					Console.WriteLine($"{vastustaja.Nimi} aiheutti sinulle {vastustaja.AnnaVahinko}");
 				}
 			}
 			// Kun taistelu loppuu, palaa PeliSilmukkaan
@@ -128,12 +147,12 @@ namespace ritaripeli
 				int valinta;
 				if (int.TryParse(Console.ReadLine(), out valinta))
 				{
+					
+					if (valinta >= min && valinta <= max)
 					{
-						if (valinta >= min && valinta <= max)
-						{
-							return valinta;
-						}
+						return valinta;
 					}
+					
 				}
 				Console.WriteLine(virhe);
 			}
