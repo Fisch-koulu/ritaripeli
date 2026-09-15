@@ -24,7 +24,12 @@ namespace ritaripeli
 
 	internal class Goblin : Hirviö
 	{
-		public Goblin() { }
+		public Goblin() 
+		{
+			this.Osumapisteet = 10;
+			this.Nimi = "Goblin";
+			this.Damage = 1;
+		}
 
 		public override int AnnaVahinko()
 		{

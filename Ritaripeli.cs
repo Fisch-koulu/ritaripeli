@@ -60,17 +60,17 @@ namespace ritaripeli
 		public void TaisteluTila()
 		{
 			// TODO arvo pelaajaa vastaan taisteleva hirviö
-			Hirviö vastustaja = null;
+			Hirviö vastustaja = new Goblin();
 			while (vastustaja.Osumapisteet > 0 && pelaaja.Osumapisteet > 0)
 			{
 				// TODO anna pelaajan valita toiminto:
 				// 1. hyökkää : aiheuta vahinkoa hirviölle
-
 				// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
 				// Jos pelaaja käyttää ruoka-annosta, lisää pelaajan osumapisteitä
 				// Jos pelaaja käyttää nuolta, ammu nuoli kohti vihollista
 				// Jos pelaaja käyttää jotain muuta tavaraa, toimi valinnan mukaan
 				// 3. pakene : poistu TaisteluTilasta
+				int valinta = Valitse(1, 3);
 
 				// TODO Jos hirviöllä on osumapisteitä jäljellä
 				if (vastustaja.Osumapisteet > 0)
