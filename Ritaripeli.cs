@@ -11,6 +11,7 @@ namespace ritaripeli
 		Ritari pelaaja;
 		List<Hirviö> hirviot;
 		List<IKauppa> kaupat;
+		Reppu reppu;
 		int voitto = 50;
 		
 		public Ritaripeli()
@@ -22,6 +23,9 @@ namespace ritaripeli
 			// TODO luo erilaiset kaupat
 			NuoliKauppa nuoliKauppa = new NuoliKauppa();
 			kaupat.Add(nuoliKauppa);
+			// luo pelaajan reppu
+			reppu = new Reppu();
+			reppu.YritäLisaa(new Jousi());
 		}
 
 		public void PeliSilmukka()
@@ -36,13 +40,13 @@ namespace ritaripeli
 				Print.WriteColor("Kultaa: ", ConsoleColor.White);
 				Print.LineColor($"{pelaaja.Rahapussi.Rahoja} kr", ConsoleColor.Yellow);
 				// TODO anna pelaajan valita meneekö kauppaan vai taistelemaan vai käyttääkö tavaroita Repusta
-				Console.WriteLine("Valitse toiminto:" +
-					"\r\n1 Mene nuolikauppaan" +
-					"\r\n2 Mene ravintolaan" +
-					"\r\n3 Lähde taisteluun" +
-					"\r\n4 Käytä repussa olevia esineitä");
 				//pelaaja valitsee
-				int valinta = Valitse(1, 4) - 1;
+				int valinta = Valitse(1, 4, 
+					"Valitse toiminto:" +
+                    "\r\n1 Mene nuolikauppaan" +
+                    "\r\n2 Mene ravintolaan" +
+                    "\r\n3 Lähde taisteluun" +
+                    "\r\n4 Käytä repussa olevia esineitä") - 1;
 
 				//pelaaja on valinnut 1-4
 				if (valinta <= 1)
@@ -53,7 +57,10 @@ namespace ritaripeli
 				{
 					TaisteluTila();
 				}
-				//ja repputila
+				else
+				{
+					ReppuTila();
+				}
 
 				// Tarkista onko peli päättynyt
 				if (pelaaja.Osumapisteet <= 0 || pelaaja.Rahapussi.Rahoja >= voitto)
@@ -70,7 +77,11 @@ namespace ritaripeli
 			Hirviö vastustaja = new Goblin();
 			while (vastustaja.Osumapisteet > 0 && pelaaja.Osumapisteet > 0)
 			{
-				int valinta = Valitse(1, 3);
+				int valinta = Valitse(1, 3, 
+						"Valitse toiminto:" +
+                        "\r\n1 Hyökkää" +
+                        "\r\n2 Käytä esineitä" +
+                        "\r\n3 Pakene");
 				switch (valinta)
 				{
 				// TODO anna pelaajan valita toiminto:
@@ -108,13 +119,13 @@ namespace ritaripeli
 			while (true)
 			{
 				// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
-				Console.WriteLine("Valitse toiminto:" +
-						"\r\n1 Osta mittatilausnuoli" +
-						"\r\n2 Listaa kaupan tavarat" +
-						"\r\n3 Osta tavara" +
-						"\r\n4 Poistu");
+				int kauppaValinta = Valitse(1, 4, 
+						"Valitse toiminto:" +
+                        "\r\n1 Osta mittatilausnuoli" +
+                        "\r\n2 Listaa kaupan tavarat" +
+                        "\r\n3 Osta tavara" +
+                        "\r\n4 Poistu");
 
-				int kauppaValinta = Valitse(1, 4);
 				switch (kauppaValinta)
 				{
 					case 1: break;
@@ -134,17 +145,34 @@ namespace ritaripeli
 
 		}
 
+
+		public void ReppuTila()
+		{
+			// Kerro pelaajalle vaihtoehdot
+			// Anna pelaajan valita mitä ottaa repusta
+            int valitse = Valitse(1, reppu.ListaaRepunTavarat().Count);
+			// Tai voi poistua
+			if (valitse >= reppu.ListaaRepunTavarat().Count)
+			{
+				return;
+			}
+			reppu.OtaRepunTavara(valitse);
+		}
+
+
 		/// <summary>
 		/// tarkistaa, että pelaaja antaa numeron ja numero on vaihtoehto.
 		/// </summary>
 		/// <param name="min"></param>
 		/// <param name="max"></param>
+		/// <param name="teksti">Toistaa vaihtoehdot. Ei pakollinen.</param>
 		/// <param name="virhe">Ei tarvitse kirjoittaa virheviestiä.</param>
 		/// <returns></returns>
-		public static int Valitse(int min, int max, string? virhe = "Vaihtoehto ei käy.")
+		public static int Valitse(int min, int max, string? teksti = null, string? virhe = "Vaihtoehto ei käy.")
 		{ 
 			while (true)
 			{
+				Console.WriteLine(teksti);
 				int valinta;
 				if (int.TryParse(Console.ReadLine(), out valinta))
 				{

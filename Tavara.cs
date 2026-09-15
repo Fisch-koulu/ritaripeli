@@ -17,6 +17,8 @@ namespace ritaripeli
 
         protected string tavaraNimi;
 
+        protected bool parantava;
+
         public Tavara(string tavaraNimi)
         {
             this.tavaraNimi = tavaraNimi;
@@ -56,7 +58,7 @@ namespace ritaripeli
         private Karki karki;
         private Pera pera;
 
-        public Jousi() : base("Jousi") { }
+        public Jousi() : base("Jousi") { parantava = false; }
 
         /// <summary>
         /// luo uuden aloitelija nuolen
@@ -188,7 +190,7 @@ namespace ritaripeli
             chili
         }
 
-        public Ruoka() : base("Ruoka") { }
+        public Ruoka() : base("Ruoka") { parantava = true; }
 
         public override int PalautaHinta() { return 0; }
     }
