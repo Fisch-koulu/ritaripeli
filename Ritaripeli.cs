@@ -103,16 +103,17 @@ namespace ritaripeli
 
 		public void KauppaTila(IKauppa kauppa)
 		{
-            // TODO anna pelaajan valita mihin kauppaan pelaaja menee
-            Console.WriteLine("Valitse toiminto:" +
-                    "\r\n1 Osta mittatilausnuoli" +
-                    "\r\n2 Listaa kaupan tavarat" +
-                    "\r\n3 Osta tavara" +
-                    "\r\n4 Poistu");
+			// TODO anna pelaajan valita mihin kauppaan pelaaja menee
 
 			while (true)
 			{
 				// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
+				Console.WriteLine("Valitse toiminto:" +
+						"\r\n1 Osta mittatilausnuoli" +
+						"\r\n2 Listaa kaupan tavarat" +
+						"\r\n3 Osta tavara" +
+						"\r\n4 Poistu");
+
 				int kauppaValinta = Valitse(1, 4);
 				switch (kauppaValinta)
 				{
@@ -122,8 +123,8 @@ namespace ritaripeli
 						kauppa.ListaaTavarat(); break;
 					case 3:
 						//listaa tavarat varmuuden vuoksi
-                        var Lista = kauppa.ListaaTavarat();
-                        kauppaValinta = Valitse(1, Lista.Count);
+                        //var Lista = kauppa.ListaaTavarat();
+                        kauppaValinta = Valitse(1, kauppa.ListaaTavarat().Count);
                         // yrittää ostaa ja poistuu kaupasta oston tai ei oston jälkeen.
                         kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi); return;
 					// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
