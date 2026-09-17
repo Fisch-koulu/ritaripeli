@@ -19,6 +19,7 @@ namespace ritaripeli
         /// <returns></returns>
         public bool YritäLisaa(Tavara tavara)
         {
+            if (tavara == null) return false;
             //katso ettei voi lisätä repun maksimi määrän.
             if (tavaraList.Count + 1 < maxMaara)
             {

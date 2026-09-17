@@ -90,11 +90,23 @@ namespace ritaripeli
 						vastustaja.OtaVahinkoa(valinta);
 						break;
 					case 2:
-					// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
-					// Jos pelaaja käyttää ruoka-annosta, lisää pelaajan osumapisteitä
-					// Jos pelaaja käyttää nuolta, ammu nuoli kohti vihollista
-					// Jos pelaaja käyttää jotain muuta tavaraa, toimi valinnan mukaan
-						break;
+						// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
+						Tavara? kayta = ReppuTila();
+						// Jos pelaaja käyttää ruoka-annosta, lisää pelaajan osumapisteitä
+						if (kayta.Parantava)
+						{
+							pelaaja.SaaHipaa(kayta.Vahinko());
+							Console.WriteLine($"Ritari sai {kayta.Vahinko()} osumapistettä takaisin.");
+						}
+						// Jos pelaaja käyttää nuolta, ammu nuoli kohti vihollista
+						else
+						{
+							vastustaja.OtaVahinkoa(kayta.Vahinko());
+							Console.WriteLine($"{kayta.TavaraNimi} aiheutti {kayta.Vahinko()} vahinkoa.");
+						}
+						// Jos pelaaja käyttää jotain muuta tavaraa, toimi valinnan mukaan
+						// ^^en tiedä mitä tarkoittaa
+							break;
 					case 3:
 					// 3. pakene : poistu TaisteluTilasta
 						Console.WriteLine("Pakenet taistelusta.");
@@ -106,7 +118,7 @@ namespace ritaripeli
 				{
 					// arvo hirviön tekemä vahinko ja vähennä se pelaajan osumapisteistä
 					pelaaja.OtaVahinkoa(vastustaja.AnnaVahinko());
-					Console.WriteLine($"{vastustaja.Nimi} aiheutti sinulle {vastustaja.AnnaVahinko}");
+					Console.WriteLine($"{vastustaja.Nimi} aiheutti sinulle {vastustaja.AnnaVahinko()}");
 				}
 			}
 			// Kun taistelu loppuu, palaa PeliSilmukkaan
@@ -137,7 +149,8 @@ namespace ritaripeli
                         //var Lista = kauppa.ListaaTavarat();
                         kauppaValinta = Valitse(1, kauppa.ListaaTavarat().Count);
                         // yrittää ostaa ja poistuu kaupasta oston tai ei oston jälkeen.
-                        kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi); return;
+						reppu.YritäLisaa(kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi));
+						return;
 					// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
 					case 4: return; //poistuu kaupasta
 				}
@@ -146,17 +159,17 @@ namespace ritaripeli
 		}
 
 
-		public void ReppuTila()
+		public Tavara? ReppuTila()
 		{
 			// Kerro pelaajalle vaihtoehdot
 			// Anna pelaajan valita mitä ottaa repusta
             int valitse = Valitse(1, reppu.ListaaRepunTavarat().Count);
 			// Tai voi poistua
-			if (valitse >= reppu.ListaaRepunTavarat().Count)
+			if (valitse > reppu.ListaaRepunTavarat().Count)
 			{
-				return;
+				return null;
 			}
-			reppu.OtaRepunTavara(valitse);
+			return reppu.OtaRepunTavara(valitse);
 		}
 
 

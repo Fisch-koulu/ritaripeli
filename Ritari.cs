@@ -24,5 +24,10 @@ namespace ritaripeli
 			Osumapisteet -= määrä;
 		}
 
+		public void SaaHipaa(int määrä)
+		{
+			Osumapisteet += määrä;
+		}
+
 	}
 }

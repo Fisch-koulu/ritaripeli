@@ -16,6 +16,7 @@ namespace ritaripeli
         public string TavaraNimi { get { return tavaraNimi; } set => tavaraNimi = value; }
 
         protected string tavaraNimi;
+        public bool Parantava { get { return parantava; } }
 
         protected bool parantava;
 
@@ -35,6 +36,8 @@ namespace ritaripeli
         /// </summary>
         /// <returns></returns>
         public abstract int PalautaHinta();
+
+        public abstract int Vahinko();
     }
 
     ///luulen, että tämä tarkoittaa nuolia, mutta vahingossa käytettiin sanaa Jousi.
@@ -129,7 +132,7 @@ namespace ritaripeli
             return Vahinko() * 2;
         }
 
-        public int Vahinko()
+        public override int Vahinko()
         {
             int vahinko = 0;
             switch (karki)
@@ -193,5 +196,6 @@ namespace ritaripeli
         public Ruoka() : base("Ruoka") { parantava = true; }
 
         public override int PalautaHinta() { return 0; }
+        public override int Vahinko() { return 0; }
     }
 }
