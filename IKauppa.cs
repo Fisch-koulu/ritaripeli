@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ritaripeli;
 
 namespace ritaripeli
 {
@@ -30,7 +31,11 @@ namespace ritaripeli
 		/// <returns>Jos ostaminen onnistuu, palauttaa ostetun tavaran. Jos ostaminen epäonnistuu, palauttaa null</returns>
 		public Tavara? OstaTavara(int valittuTavara, Lompakko rahapussi);
 
-	
+		/// <summary>
+		/// Listaa mitä kaupassa voi tehdä
+		/// </summary>
+		/// <returns></returns>
+		public string ListaaValinnat();
 	}
 
 	internal class TavaraJaHinta
@@ -50,7 +55,9 @@ namespace ritaripeli
 	/// </summary>
 	internal class NuoliKauppa : IKauppa
 	{
+		//kaupan tavarat
 		private List<TavaraJaHinta> tavarat;
+		public List<TavaraJaHinta> Tavarat { get  { return tavarat; } }
 
 		public NuoliKauppa()
 		{
@@ -95,43 +102,60 @@ namespace ritaripeli
 			return null;
 		}
 
-		/// <summary>
-		/// tekee ruokakaupan.
-		/// </summary>
-		internal class RuokaKauppa : IKauppa
-		{
-            private List<TavaraJaHinta> tavarat;
-			
-			public RuokaKauppa()
-			{
-                tavarat = new List<TavaraJaHinta>();
-
-                TavaraJaHinta tavara1 = new TavaraJaHinta(new Ruoka(), 10);
-                tavarat.Add(tavara1);
-            }
-
-            public List<TavaraJaHinta> ListaaTavarat()
-            {
-                for (int i = 0; i < tavarat.Count; i++)
-                {
-                    Console.WriteLine($"{i + 1}: {tavarat[i].Esine} {tavarat[i].Hinta} kr");
-                }
-                return tavarat;
-            }
-
-            public Tavara? OstaTavara(int valittuTavara, Lompakko rahapussi)
-            {
-                valittuTavara--;
-                //katsoo voiko pelaaja ostaa tavaran
-                if (rahapussi.Rahoja >= tavarat[valittuTavara].Hinta)
-                {
-                    rahapussi.OtaRahaa(tavarat[valittuTavara].Hinta);
-                    return tavarat[valittuTavara].Esine;
-                }
-                //jos ei voi, funktio antaa tyhjän
-                Console.WriteLine("Sinulla ei ole tarpeeksi rahaa.");
-                return null;
-            }
+        public string ListaaValinnat()
+        {
+            return "Valitse toiminto:" +
+                   "\r\n1 Osta mittatilausnuoli" +
+                   "\r\n2 Listaa kaupan tavarat" +
+                   "\r\n3 Osta tavara" +
+                   "\r\n4 Poistu";
         }
-	}
+    }
+
+	/// <summary>
+	/// tekee ruokakaupan.
+	/// </summary>
+	internal class RuokaKauppa : IKauppa
+	{
+		private List<TavaraJaHinta> tavarat;
+
+		public RuokaKauppa()
+		{
+			tavarat = new List<TavaraJaHinta>();
+
+			TavaraJaHinta tavara1 = new TavaraJaHinta(new Ruoka(), 10);
+			tavarat.Add(tavara1);
+		}
+		public List<TavaraJaHinta> ListaaTavarat()
+		{
+			for (int i = 0; i < tavarat.Count; i++)
+			{
+				Console.WriteLine($"{i + 1}: {tavarat[i].Esine} {tavarat[i].Hinta} kr");
+			}
+			return tavarat;
+		}
+
+		public Tavara? OstaTavara(int valittuTavara, Lompakko rahapussi)
+		{
+			valittuTavara--;
+			//katsoo voiko pelaaja ostaa tavaran
+			if (rahapussi.Rahoja >= tavarat[valittuTavara].Hinta)
+			{
+				rahapussi.OtaRahaa(tavarat[valittuTavara].Hinta);
+				return tavarat[valittuTavara].Esine;
+			}
+			//jos ei voi, funktio antaa tyhjän
+			Console.WriteLine("Sinulla ei ole tarpeeksi rahaa.");
+			return null;
+		}
+
+        public string ListaaValinnat()
+		{
+			return "Valitse toiminto:" +
+                   "\r\n1 Osta ruokatilaus" +
+                   "\r\n2 Listaa kaupan tavarat" +
+                   "\r\n3 Osta tavara" +
+                   "\r\n4 Poistu";
+		}
+    }
 }

@@ -24,21 +24,21 @@ namespace ritaripeli
             if (tavaraList.Count + 1 < maxMaara)
             {
                 tavaraList.Add(tavara);
-                Print.WriteColor($"{tavara.ToString} lisättiin reppuusi.", ConsoleColor.Yellow);
+                Print.LineColor($"{tavara.ToString()} lisättiin reppuusi.", ConsoleColor.Yellow);
                 return true;
             }
             Print.LineColor("Sinulla on liika tavaroita repussa.", ConsoleColor.Red);
             return false;
         }
 
-        public List<Tavara> ListaaRepunTavarat()
+        public void ListaaRepunTavarat()
         {
             Console.WriteLine("Repussa on:");
             for (int i = 0; i < tavaraList.Count; i++)
             {
                 Console.WriteLine($"{i + 1}: {tavaraList[i]}");
             }
-            return tavaraList;
+            Console.WriteLine($"{tavaraList.Count + 1}: Mene takaisin");
         }
 
         /// <summary>

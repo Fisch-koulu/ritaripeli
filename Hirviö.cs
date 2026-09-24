@@ -12,6 +12,7 @@ namespace ritaripeli
 	internal abstract class Hirviö
 	{
 		public int Osumapisteet { get; set; }
+		public int MaxOsumapisteet { get; set; }
 		public string Nimi { get; set; }
 		public int Damage { get; set; }
 
@@ -20,6 +21,8 @@ namespace ritaripeli
 			return Damage;
 		}
 		public abstract void OtaVahinkoa(int määrä);
+
+		public abstract int AnnaRahaa();
 	}
 
 	internal class Goblin : Hirviö
@@ -27,6 +30,7 @@ namespace ritaripeli
 		public Goblin() 
 		{
 			this.Osumapisteet = 10;
+			this.MaxOsumapisteet = this.Osumapisteet;
 			this.Nimi = "Goblin";
 			this.Damage = 1;
 		}
@@ -39,6 +43,12 @@ namespace ritaripeli
         public override void OtaVahinkoa(int määrä)
 		{
             Osumapisteet -= määrä;
+        }
+
+        public override int AnnaRahaa()
+        {
+            Random rnd = new Random();
+			return rnd.Next(5, 10);
         }
     }
 }

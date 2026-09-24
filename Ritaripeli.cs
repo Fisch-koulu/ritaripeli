@@ -11,7 +11,6 @@ namespace ritaripeli
 		Ritari pelaaja;
 		List<Hirviö> hirviot;
 		List<IKauppa> kaupat;
-		Reppu reppu;
 		int voitto = 50;
 		
 		public Ritaripeli()
@@ -19,13 +18,14 @@ namespace ritaripeli
 			pelaaja = new Ritari(aloitusOsumapisteet: 10, aloitusRahat: 10);
 			hirviot = new List<Hirviö>();
 			// TODO luo erilaiset hirviöt
+
+
 			kaupat = new List<IKauppa>();
 			// TODO luo erilaiset kaupat
 			NuoliKauppa nuoliKauppa = new NuoliKauppa();
+			RuokaKauppa ruokaKauppa = new RuokaKauppa();
 			kaupat.Add(nuoliKauppa);
-			// luo pelaajan reppu
-			reppu = new Reppu();
-			reppu.YritäLisaa(new Jousi());
+			kaupat.Add(ruokaKauppa);
 		}
 
 		public void PeliSilmukka()
@@ -59,7 +59,7 @@ namespace ritaripeli
 				}
 				else
 				{
-					ReppuTila();
+					KäytäTavaraa(ReppuTila());
 				}
 
 				// Tarkista onko peli päättynyt
@@ -68,15 +68,33 @@ namespace ritaripeli
 					break;
 				}
 			}
-			//jotain tekstiä
+			if (pelaaja.Rahapussi.Rahoja >= voitto)
+			{
+				Print.LineColor("Voitit pelin :D", ConsoleColor.Yellow);
+			}
+			else
+			{
+				Print.LineColor("Hävisit pelin :(", ConsoleColor.Red);
+			}
 		}
 
 		public void TaisteluTila()
 		{
 			// TODO arvo pelaajaa vastaan taisteleva hirviö
 			Hirviö vastustaja = new Goblin();
+			//kertoo minkä vastustajan kohtaa
+			Console.WriteLine($"Kohtaat {vastustaja.Nimi} hirviön.");
+
 			while (vastustaja.Osumapisteet > 0 && pelaaja.Osumapisteet > 0)
 			{
+				//pelaajan ja vastustajan osumapiste tilanne
+				Print.WriteColor("Oma op:", ConsoleColor.White);
+				//TODO: tee muuttuja jolla on max osumapiste arvo
+				Print.WriteColor($" ({pelaaja.Osumapisteet}/10) ", ConsoleColor.Green);
+				Print.WriteColor("Vihollinen:", ConsoleColor.White);
+				//TODO: tee muuttuja jolla on max osumapiste arvo
+				Print.LineColor($" ({vastustaja.Osumapisteet}/{vastustaja.MaxOsumapisteet}) ", ConsoleColor.Red);
+
 				int valinta = Valitse(1, 3, 
 						"Valitse toiminto:" +
                         "\r\n1 Hyökkää" +
@@ -87,23 +105,14 @@ namespace ritaripeli
 				// TODO anna pelaajan valita toiminto:
 					case 1:
 					// 1. hyökkää : aiheuta vahinkoa hirviölle
-						vastustaja.OtaVahinkoa(valinta);
+						//anna ritarille ase. Ase aiheuttaa vahinkoa.
+						vastustaja.OtaVahinkoa(5);
+						Console.WriteLine($"Ritari aiheutti 10 vahinkoa.");
 						break;
 					case 2:
 						// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
-						Tavara? kayta = ReppuTila();
+						KäytäTavaraa(ReppuTila(), vastustaja);
 						// Jos pelaaja käyttää ruoka-annosta, lisää pelaajan osumapisteitä
-						if (kayta.Parantava)
-						{
-							pelaaja.SaaHipaa(kayta.Vahinko());
-							Console.WriteLine($"Ritari sai {kayta.Vahinko()} osumapistettä takaisin.");
-						}
-						// Jos pelaaja käyttää nuolta, ammu nuoli kohti vihollista
-						else
-						{
-							vastustaja.OtaVahinkoa(kayta.Vahinko());
-							Console.WriteLine($"{kayta.TavaraNimi} aiheutti {kayta.Vahinko()} vahinkoa.");
-						}
 						// Jos pelaaja käyttää jotain muuta tavaraa, toimi valinnan mukaan
 						// ^^en tiedä mitä tarkoittaa
 							break;
@@ -118,10 +127,19 @@ namespace ritaripeli
 				{
 					// arvo hirviön tekemä vahinko ja vähennä se pelaajan osumapisteistä
 					pelaaja.OtaVahinkoa(vastustaja.AnnaVahinko());
-					Console.WriteLine($"{vastustaja.Nimi} aiheutti sinulle {vastustaja.AnnaVahinko()}");
+					Console.WriteLine($"{vastustaja.Nimi} aiheutti sinulle {vastustaja.AnnaVahinko()} vahinkoa.");
 				}
 			}
 			// Kun taistelu loppuu, palaa PeliSilmukkaan
+			if (pelaaja.Osumapisteet >= 0)
+			{
+				int raha = vastustaja.AnnaRahaa();
+				pelaaja.Rahapussi.LisääRahaa(raha);
+
+				Print.WriteColor("Voitit ja sait",ConsoleColor.White);
+				Print.WriteColor($" {raha} ",ConsoleColor.Yellow);
+				Print.LineColor("kultarahaa.",ConsoleColor.White);
+			}
 		}
 
 		public void KauppaTila(IKauppa kauppa)
@@ -131,16 +149,13 @@ namespace ritaripeli
 			while (true)
 			{
 				// listaa kaupan tavarat ja anna pelaajan valita minkä hän haluaa
-				int kauppaValinta = Valitse(1, 4, 
-						"Valitse toiminto:" +
-                        "\r\n1 Osta mittatilausnuoli" +
-                        "\r\n2 Listaa kaupan tavarat" +
-                        "\r\n3 Osta tavara" +
-                        "\r\n4 Poistu");
+				int kauppaValinta = Valitse(1, 4, kauppa.ListaaValinnat());
 
 				switch (kauppaValinta)
 				{
-					case 1: break;
+					case 1: 
+						//TODO: anna pelaajan tilata mittatilaus.
+						break;
 					case 2:
 						//Listaa tavarat
 						kauppa.ListaaTavarat(); break;
@@ -149,7 +164,7 @@ namespace ritaripeli
                         //var Lista = kauppa.ListaaTavarat();
                         kauppaValinta = Valitse(1, kauppa.ListaaTavarat().Count);
                         // yrittää ostaa ja poistuu kaupasta oston tai ei oston jälkeen.
-						reppu.YritäLisaa(kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi));
+						pelaaja.PelaajanReppu.YritäLisaa(kauppa.OstaTavara(kauppaValinta, pelaaja.Rahapussi));
 						return;
 					// lisää vaihtoehto jolla pelaaja pääsee pois kaupasta ja Kauppatilasta
 					case 4: return; //poistuu kaupasta
@@ -158,18 +173,62 @@ namespace ritaripeli
 
 		}
 
-
+		/// <summary>
+		/// Listaa, tarkistaa ja palauttaa tavaran repusta.
+		/// </summary>
+		/// <returns></returns>
 		public Tavara? ReppuTila()
 		{
 			// Kerro pelaajalle vaihtoehdot
+			pelaaja.PelaajanReppu.ListaaRepunTavarat();
+			int repunTavara = pelaaja.PelaajanReppu.TavaraList.Count; // reppu.ListaaRepunTavarat().Count;
 			// Anna pelaajan valita mitä ottaa repusta
-            int valitse = Valitse(1, reppu.ListaaRepunTavarat().Count);
+            int valitse = Valitse(1, repunTavara+1);
 			// Tai voi poistua
-			if (valitse > reppu.ListaaRepunTavarat().Count)
+			if (valitse > repunTavara)
 			{
 				return null;
 			}
-			return reppu.OtaRepunTavara(valitse);
+			//palauta valittu tavara jos ei ollut poistunut
+			return pelaaja.PelaajanReppu.OtaRepunTavara(valitse);
+		}
+
+		/// <summary>
+		/// Käyttää antaman tavaran.
+		/// </summary>
+		/// <param name="tavara">Antama tavara ja jos ei ole tavaraa, palauta funktio.</param>
+		/// <param name="vastustaja">Jos on hirviö, johon yritetään käyttää tavara.</param>
+		public void KäytäTavaraa(Tavara? tavara, Hirviö? vastustaja = null)
+		{
+			//jos ei ole tavaraa, paalaa takaisin
+			if (tavara == null) return;
+
+			//yritä käyttää tavaraa
+			if (tavara.Vahingoittava) //katsoo onko tavara vahingoittava
+			{
+				//jos ei ole vastustajaa palauta;
+				if (vastustaja == null)
+				{
+					Print.LineColor("Heitit tavaran pois.", ConsoleColor.White);
+					return;
+				}
+
+				var vahinko = tavara.Vahinko();
+				vastustaja.OtaVahinkoa(vahinko); //vastusja saa vahingon
+				//viesti
+				Print.WriteColor($"{tavara} aiheuttaa vastustajalle", ConsoleColor.White);
+				Print.WriteColor($" {vahinko} ",ConsoleColor.Red);
+				Print.WriteColor("vahinkoa.", ConsoleColor.White);
+			}
+			if (tavara.Parantava) //katsoo onko tavara parantava
+			{
+				var paranna = tavara.Paranna();
+				pelaaja.SaaHipaa(paranna); //pelaaja saa parannuksen
+                //viesti
+                Print.WriteColor($"Ritari saa", ConsoleColor.White);
+                Print.WriteColor($" {paranna} ", ConsoleColor.Green);
+                Print.WriteColor("osumapistettä takaisin.", ConsoleColor.White);
+            }
 		}
 
 

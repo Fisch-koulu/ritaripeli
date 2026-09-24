@@ -16,9 +16,10 @@ namespace ritaripeli
         public string TavaraNimi { get { return tavaraNimi; } set => tavaraNimi = value; }
 
         protected string tavaraNimi;
-        public bool Parantava { get { return parantava; } }
 
-        protected bool parantava;
+        //pakko kertoa onko tavara paratnava tai vahingoittava
+        public abstract bool Parantava { get; }
+        public abstract bool Vahingoittava { get; }
 
         public Tavara(string tavaraNimi)
         {
@@ -37,7 +38,17 @@ namespace ritaripeli
         /// <returns></returns>
         public abstract int PalautaHinta();
 
-        public abstract int Vahinko();
+        /// <summary>
+        /// funktio vahingoittavalle esineelle.
+        /// </summary>
+        /// <returns></returns>
+        public virtual int Vahinko() { return 0; }
+
+        /// <summary>
+        /// funktio parantavalle esineelle.
+        /// </summary>
+        /// <returns></returns>
+        public virtual int Paranna() { return 0; }
     }
 
     ///luulen, että tämä tarkoittaa nuolia, mutta vahingossa käytettiin sanaa Jousi.
@@ -60,8 +71,10 @@ namespace ritaripeli
 
         private Karki karki;
         private Pera pera;
+        public override bool Vahingoittava => true;
+        public override bool Parantava => false;
 
-        public Jousi() : base("Jousi") { parantava = false; }
+        public Jousi() : base("Jousi") {  }
 
         /// <summary>
         /// luo uuden aloitelija nuolen
@@ -192,10 +205,33 @@ namespace ritaripeli
             pippuri,
             chili
         }
+        private Paaraaka paaraaka;
+        private Lisuke lisuke;
+        private Kastike kastike;
 
-        public Ruoka() : base("Ruoka") { parantava = true; }
+        public override bool Vahingoittava => false;
+        public override bool Parantava => true;
 
-        public override int PalautaHinta() { return 0; }
-        public override int Vahinko() { return 0; }
+        public Ruoka() : base("Ruoka") {  }
+
+        public override int PalautaHinta() { return Paranna()*2; }
+
+        public override int Paranna() 
+        {
+            int paranna = 0;
+            switch (paaraaka)
+            {
+                case Paaraaka.nautaa: paranna = 1; break;
+                case Paaraaka.kanaa: paranna = 2; break;
+                case Paaraaka.kasviksia: paranna = 3; break;
+            }
+            switch (lisuke)
+            {
+                case Lisuke.perunaa: paranna += 1; break;
+                case Lisuke.riisiä: paranna += 2; break;
+                case Lisuke.pastaa: paranna += 3; break;
+            }
+            return paranna;
+        }
     }
 }
