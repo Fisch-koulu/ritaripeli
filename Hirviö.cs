@@ -48,7 +48,88 @@ namespace ritaripeli
         public override int AnnaRahaa()
         {
             Random rnd = new Random();
-			return rnd.Next(5, 10);
+			return rnd.Next(5, 11);
+        }
+    }
+
+	internal class RatMan : Hirviö
+	{
+		public RatMan() 
+		{
+			this.Osumapisteet = 1;
+			this.MaxOsumapisteet = this.Osumapisteet;
+			this.Nimi = "Rat man";
+			this.Damage = 1;
+		}
+
+		public override int AnnaVahinko()
+		{
+			return base.AnnaVahinko();
+		}
+
+        public override void OtaVahinkoa(int määrä)
+		{
+            Osumapisteet -= määrä;
+        }
+
+        public override int AnnaRahaa()
+        {
+            Random rnd = new Random();
+			return rnd.Next(0, 2);
+        }
+    }
+
+	internal class Skeleton : Hirviö
+	{
+		public Skeleton() 
+		{
+			this.Osumapisteet = 6;
+			this.MaxOsumapisteet = this.Osumapisteet;
+			this.Nimi = "Skeleton";
+			this.Damage = 3;
+		}
+
+		public override int AnnaVahinko()
+		{
+			return base.AnnaVahinko();
+		}
+
+        public override void OtaVahinkoa(int määrä)
+		{
+            Osumapisteet -= määrä;
+        }
+
+        public override int AnnaRahaa()
+        {
+            Random rnd = new Random();
+			return rnd.Next(10, 14);
+        }
+    }
+
+	internal class Mimic : Hirviö
+	{
+		public Mimic() 
+		{
+			this.Osumapisteet = 12;
+			this.MaxOsumapisteet = this.Osumapisteet;
+			this.Nimi = "Mimic";
+			this.Damage = 5;
+		}
+
+		public override int AnnaVahinko()
+		{
+			return base.AnnaVahinko();
+		}
+
+        public override void OtaVahinkoa(int määrä)
+		{
+            Osumapisteet -= määrä;
+        }
+
+        public override int AnnaRahaa()
+        {
+            Random rnd = new Random();
+			return rnd.Next(20, 26);
         }
     }
 }

@@ -11,19 +11,35 @@ namespace ritaripeli
 		Ritari pelaaja;
 		List<Hirviö> hirviot;
 		List<IKauppa> kaupat;
-		int voitto = 50;
+		int voitto = 40;
 		
 		public Ritaripeli()
 		{
-			pelaaja = new Ritari(aloitusOsumapisteet: 10, aloitusRahat: 40);
+			//luo pelaaja
+			pelaaja = new Ritari(aloitusOsumapisteet: 10, aloitusRahat: 10, new Miekka());
+
 			hirviot = new List<Hirviö>();
 			// TODO luo erilaiset hirviöt
-
+			Goblin goblin = new Goblin();
+			RatMan ratMan = new RatMan();
+			Skeleton skeleton = new Skeleton();
+			Mimic mimic = new Mimic();
+			//lisää hirviöt listaan
+			hirviot.Add(goblin);
+			hirviot.Add(goblin);
+			hirviot.Add(goblin);
+			hirviot.Add(ratMan);
+			hirviot.Add(ratMan);
+			hirviot.Add(skeleton);
+			hirviot.Add(skeleton);
+			hirviot.Add(skeleton);
+			hirviot.Add(mimic);
 
 			kaupat = new List<IKauppa>();
 			// TODO luo erilaiset kaupat
 			NuoliKauppa nuoliKauppa = new NuoliKauppa();
 			RuokaKauppa ruokaKauppa = new RuokaKauppa();
+			//Lisää kaupat listaan
 			kaupat.Add(nuoliKauppa);
 			kaupat.Add(ruokaKauppa);
 		}
@@ -78,10 +94,15 @@ namespace ritaripeli
 			}
 		}
 
+		/// <summary>
+		/// Pelin taistelu tila, eli missä pelaaja taistelee hirviöitä vastaan.
+		/// </summary>
 		public void TaisteluTila()
 		{
 			// TODO arvo pelaajaa vastaan taisteleva hirviö
-			Hirviö vastustaja = new Goblin();
+			Random rand = new Random();
+			Hirviö vastustaja = hirviot[rand.Next(hirviot.Count)];
+			vastustaja.Osumapisteet = vastustaja.MaxOsumapisteet;
 			//kertoo minkä vastustajan kohtaa
 			Console.WriteLine($"Kohtaat {vastustaja.Nimi} hirviön.");
 
@@ -91,7 +112,7 @@ namespace ritaripeli
 				Print.WriteColor("Oma op:", ConsoleColor.White);
 				//TODO: tee muuttuja jolla on max osumapiste arvo
 				Print.WriteColor($" ({pelaaja.Osumapisteet}/10) ", ConsoleColor.Green);
-				Print.WriteColor("Vihollinen:", ConsoleColor.White);
+				Print.WriteColor($"{vastustaja.Nimi} op:", ConsoleColor.White);
 				//TODO: tee muuttuja jolla on max osumapiste arvo
 				Print.LineColor($" ({vastustaja.Osumapisteet}/{vastustaja.MaxOsumapisteet}) ", ConsoleColor.Red);
 
@@ -106,8 +127,8 @@ namespace ritaripeli
 					case 1:
 					// 1. hyökkää : aiheuta vahinkoa hirviölle
 						//anna ritarille ase. Ase aiheuttaa vahinkoa.
-						vastustaja.OtaVahinkoa(5);
-						Console.WriteLine($"Ritari aiheutti 10 vahinkoa.");
+						vastustaja.OtaVahinkoa(pelaaja.PelaajanAse.Vahinko());
+						Console.WriteLine($"Ritari aiheutti {pelaaja.PelaajanAse.Vahinko()} vahinkoa.");
 						break;
 					case 2:
 						// 2. käytä esinettä ; näytä Repun sisältö ja anna pelaajan valita tavara
@@ -131,7 +152,8 @@ namespace ritaripeli
 				}
 			}
 			// Kun taistelu loppuu, palaa PeliSilmukkaan
-			if (pelaaja.Osumapisteet >= 0)
+			//jos pelajaa voittaa, kerro pelaajalle ja anna hirviön kultarahat
+			if (pelaaja.Osumapisteet > 0)
 			{
 				int raha = vastustaja.AnnaRahaa();
 				pelaaja.Rahapussi.LisääRahaa(raha);
@@ -233,12 +255,12 @@ namespace ritaripeli
 
 
 		/// <summary>
-		/// tarkistaa, että pelaaja antaa numeron ja numero on vaihtoehto.
+		/// Tarkistaa, että pelaaja antaa numeron ja numero on vaihtoehto.
 		/// </summary>
-		/// <param name="min"></param>
-		/// <param name="max"></param>
+		/// <param name="min">Minimi luku.</param>
+		/// <param name="max">Maksimi luku.</param>
 		/// <param name="teksti">Toistaa vaihtoehdot. Ei pakollinen.</param>
-		/// <param name="virhe">Ei tarvitse kirjoittaa virheviestiä.</param>
+		/// <param name="virhe">Jos vaihtoehto ei toimi, anna virheviesti. Ei tarvitse kirjoittaa virheviestiä.</param>
 		/// <returns></returns>
 		public static int Valitse(int min, int max, string? teksti = null, string? virhe = "Vaihtoehto ei käy.")
 		{ 
@@ -255,7 +277,7 @@ namespace ritaripeli
 					}
 					
 				}
-				Console.WriteLine(virhe);
+				Print.LineColor($"{virhe}", ConsoleColor.DarkRed);
 			}
 		}
 

@@ -39,13 +39,13 @@ namespace ritaripeli
         public abstract int PalautaHinta();
 
         /// <summary>
-        /// funktio vahingoittavalle esineelle.
+        /// funktio vahingoittavalle esineelle (kuinka paljon vahinkoa esine tekee.)
         /// </summary>
         /// <returns></returns>
         public virtual int Vahinko() { return 0; }
 
         /// <summary>
-        /// funktio parantavalle esineelle.
+        /// funktio parantavalle esineelle (kuinka paljon esine parantaa.)
         /// </summary>
         /// <returns></returns>
         public virtual int Paranna() { return 0; }

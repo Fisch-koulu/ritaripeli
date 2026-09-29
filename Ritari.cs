@@ -13,10 +13,13 @@ namespace ritaripeli
 		// TODO private Reppu reppu;
 		public Reppu PelaajanReppu { get; private set; }
 
-		public Ritari(int aloitusOsumapisteet, int aloitusRahat)
+		public Tavara PelaajanAse {  get; private set; }
+
+		public Ritari(int aloitusOsumapisteet, int aloitusRahat, Tavara aloitusAse)
 		{
 			Osumapisteet = aloitusOsumapisteet;
 			Rahapussi = new Lompakko(aloitusRahat);
+			PelaajanAse = aloitusAse;
 			// TODO luo tyhjä Reppu
 			PelaajanReppu = new Reppu();
 		}
