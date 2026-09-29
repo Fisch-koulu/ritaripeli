@@ -165,11 +165,11 @@ namespace ritaripeli
             switch (pera)
             {
                 case Pera.lehti:
-                    vahinko += 0; break;
-                case Pera.kanansulka:
-                    vahinko += 1; break;
-                case Pera.kotkansulka:
                     vahinko += 2; break;
+                case Pera.kanansulka:
+                    vahinko += 3; break;
+                case Pera.kotkansulka:
+                    vahinko += 4; break;
                 default: vahinko += 0; break;
             }
             return vahinko;
@@ -272,15 +272,15 @@ namespace ritaripeli
             }
             switch (lisuke)
             {
-                case Lisuke.perunaa: paranna += 1; break;
-                case Lisuke.riisiä: paranna += 2; break;
-                case Lisuke.pastaa: paranna += 3; break;
+                case Lisuke.perunaa: paranna += 0; break;
+                case Lisuke.riisiä: paranna += 1; break;
+                case Lisuke.pastaa: paranna += 2; break;
             }
             switch (kastike)
             {
-                case Kastike.curry: paranna += 1; break;
-                case Kastike.pippuri: paranna += 2; break;
-                case Kastike.chili: paranna += 3; break;
+                case Kastike.curry: paranna += 0; break;
+                case Kastike.pippuri: paranna += 1; break;
+                case Kastike.chili: paranna += 2; break;
             }
             return paranna;
         }
@@ -310,6 +310,24 @@ namespace ritaripeli
         public void AsetaKastike(Kastike kastike) 
         { 
             this.kastike = kastike;
+        }
+    }
+
+    internal class Miekka : Tavara
+    {
+        public override bool Vahingoittava => true;
+        public override bool Parantava => false;
+
+        public Miekka() : base("Miekka") {}
+
+        public override int PalautaHinta()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Vahinko()
+        {
+            return 2;
         }
     }
 }

@@ -115,6 +115,8 @@ namespace ritaripeli
                    "\r\n3 Osta tavara" +
                    "\r\n4 Poistu";
         }
+
+		//luo oma nuoli
     }
 
 	/// <summary>

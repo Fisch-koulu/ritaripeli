@@ -29,7 +29,7 @@ namespace ritaripeli
 	{
 		public Goblin() 
 		{
-			this.Osumapisteet = 10;
+			this.Osumapisteet = 4;
 			this.MaxOsumapisteet = this.Osumapisteet;
 			this.Nimi = "Goblin";
 			this.Damage = 1;
