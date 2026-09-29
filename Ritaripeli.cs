@@ -11,7 +11,7 @@ namespace ritaripeli
 		Ritari pelaaja;
 		List<Hirviö> hirviot;
 		List<IKauppa> kaupat;
-		int voitto = 40;
+		int voitto = 30;
 		
 		public Ritaripeli()
 		{
@@ -111,7 +111,7 @@ namespace ritaripeli
 				//pelaajan ja vastustajan osumapiste tilanne
 				Print.WriteColor("Oma op:", ConsoleColor.White);
 				//TODO: tee muuttuja jolla on max osumapiste arvo
-				Print.WriteColor($" ({pelaaja.Osumapisteet}/10) ", ConsoleColor.Green);
+				Print.WriteColor($" ({pelaaja.Osumapisteet}/{pelaaja.MaxOsumapisteet}) ", ConsoleColor.Green);
 				Print.WriteColor($"{vastustaja.Nimi} op:", ConsoleColor.White);
 				//TODO: tee muuttuja jolla on max osumapiste arvo
 				Print.LineColor($" ({vastustaja.Osumapisteet}/{vastustaja.MaxOsumapisteet}) ", ConsoleColor.Red);

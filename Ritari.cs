@@ -9,6 +9,8 @@ namespace ritaripeli
 	internal class Ritari
 	{
 		public int Osumapisteet {  get; private set; }
+		public int MaxOsumapisteet {  get; private set; }
+
 		public Lompakko Rahapussi { get; private set; }
 		// TODO private Reppu reppu;
 		public Reppu PelaajanReppu { get; private set; }
@@ -17,8 +19,11 @@ namespace ritaripeli
 
 		public Ritari(int aloitusOsumapisteet, int aloitusRahat, Tavara aloitusAse)
 		{
+			//pelajaan max osumapisteet.
+			MaxOsumapisteet = aloitusOsumapisteet;
 			Osumapisteet = aloitusOsumapisteet;
 			Rahapussi = new Lompakko(aloitusRahat);
+			//aloitus ase
 			PelaajanAse = aloitusAse;
 			// TODO luo tyhjä Reppu
 			PelaajanReppu = new Reppu();
@@ -32,6 +37,11 @@ namespace ritaripeli
 		public void SaaHipaa(int määrä)
 		{
 			Osumapisteet += määrä;
+			//jos pelaaja on healannut liika, aseta osumapisteet max osumapisteiksi.
+			if (Osumapisteet > MaxOsumapisteet)
+			{
+				Osumapisteet = MaxOsumapisteet;
+			}
 		}
 
 	}
