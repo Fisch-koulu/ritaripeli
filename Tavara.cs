@@ -71,6 +71,7 @@ namespace ritaripeli
 
         private Karki karki;
         private Pera pera;
+
         public override bool Vahingoittava => true;
         public override bool Parantava => false;
 
@@ -85,6 +86,7 @@ namespace ritaripeli
             Jousi uusi = new Jousi();
             uusi.karki = Karki.puu;
             uusi.pera = Pera.lehti;
+            uusi.tavaraNimi = "Aloittelijanuoli";
             return uusi;
         }
 
@@ -97,6 +99,7 @@ namespace ritaripeli
             Jousi uusi = new Jousi();
             uusi.karki = Karki.teräs;
             uusi.pera = Pera.kanansulka;
+            uusi.tavaraNimi = "Perusnuoli";
             return uusi;
         }
 
@@ -109,6 +112,7 @@ namespace ritaripeli
             Jousi uusi = new Jousi();
             uusi.karki = Karki.timantti;
             uusi.pera = Pera.kotkansulka;
+            uusi.tavaraNimi = "Eliittinuoli";
             return uusi;
         }
 
@@ -201,7 +205,6 @@ namespace ritaripeli
         public enum Kastike
         {
             curry,
-            hapanimelä,
             pippuri,
             chili
         }
@@ -213,6 +216,48 @@ namespace ritaripeli
         public override bool Parantava => true;
 
         public Ruoka() : base("Ruoka") {  }
+
+        /// <summary>
+        /// Luo aloittelija annoksen.
+        /// </summary>
+        /// <returns></returns>
+        public static Ruoka LuoAloittelijaAnnos()
+        {
+            Ruoka uus = new Ruoka();
+            uus.paaraaka = Paaraaka.nautaa;
+            uus.lisuke = Lisuke.perunaa;
+            uus.kastike = Kastike.curry;
+            uus.tavaraNimi = "Aloittelija-annos";
+            return uus;
+        }
+
+        /// <summary>
+        /// Luo perus annoksen.
+        /// </summary>
+        /// <returns></returns>
+        public static Ruoka LuoPerusAnnos()
+        {
+            Ruoka uus = new Ruoka();
+            uus.paaraaka = Paaraaka.kanaa;
+            uus.lisuke = Lisuke.riisiä;
+            uus.kastike = Kastike.pippuri;
+            uus.tavaraNimi = "Perusannos";
+            return uus;
+        }
+
+        /// <summary>
+        /// Luo perus annoksen.
+        /// </summary>
+        /// <returns></returns>
+        public static Ruoka LuoEliittiAnnos()
+        {
+            Ruoka uus = new Ruoka();
+            uus.paaraaka = Paaraaka.kasviksia;
+            uus.lisuke = Lisuke.pastaa;
+            uus.kastike = Kastike.chili;
+            uus.tavaraNimi = "Eliittiannos";
+            return uus;
+        }
 
         public override int PalautaHinta() { return Paranna()*2; }
 
@@ -231,7 +276,40 @@ namespace ritaripeli
                 case Lisuke.riisiä: paranna += 2; break;
                 case Lisuke.pastaa: paranna += 3; break;
             }
+            switch (kastike)
+            {
+                case Kastike.curry: paranna += 1; break;
+                case Kastike.pippuri: paranna += 2; break;
+                case Kastike.chili: paranna += 3; break;
+            }
             return paranna;
+        }
+
+        /// <summary>
+        /// Asettaa paaraa'an.
+        /// </summary>
+        /// <param name="paaraaka">Paaraka, joka asetetaan.</param>
+        public void AsetaPaaraaka(Paaraaka paaraaka) 
+        { 
+            this.paaraaka = paaraaka;
+        }
+
+        /// <summary>
+        /// Asettaa lisukkeen.
+        /// </summary>
+        /// <param name="lisuke">Lisuke, joka asetetaan.</param>
+        public void AsetaLisuke(Lisuke lisuke) 
+        { 
+            this.lisuke = lisuke;
+        }
+
+        /// <summary>
+        /// Asettaa kastikkeen.
+        /// </summary>
+        /// <param name="kastike">Kastike, joka asetetaan.</param>
+        public void AsetaKastike(Kastike kastike) 
+        { 
+            this.kastike = kastike;
         }
     }
 }

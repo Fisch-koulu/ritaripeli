@@ -63,13 +63,17 @@ namespace ritaripeli
 		{
 			tavarat = new List<TavaraJaHinta>();
 
+			//luo aloittelijanuolen
 			TavaraJaHinta tavara1 = new TavaraJaHinta(
 				Jousi.LuoAloittelijaNuoli(), Jousi.LuoAloittelijaNuoli().PalautaHinta());
+			//luo perusnuolen
 			TavaraJaHinta tavara2 = new TavaraJaHinta(
 				Jousi.LuoPerusNuoli(), Jousi.LuoPerusNuoli().PalautaHinta());
+			//luo eliittinuolen
 			TavaraJaHinta tavara3 = new TavaraJaHinta(
 				Jousi.LuoEliittiNuoli(), Jousi.LuoEliittiNuoli().PalautaHinta());
 
+			//lisää nuolet kauppaan
 			tavarat.Add(tavara1);
 			tavarat.Add(tavara2);
 			tavarat.Add(tavara3);
@@ -79,8 +83,9 @@ namespace ritaripeli
 		{
 			for (int i = 0; i < tavarat.Count; i++)
 			{
-				Console.WriteLine($"{i + 1}: {tavarat[i].Esine} {tavarat[i].Hinta} kr");
-			}
+				Console.Write($"{i + 1}: {tavarat[i].Esine} ");
+				Print.LineColor($"{tavarat[i].Hinta} kr", ConsoleColor.Yellow);
+            }
 			return tavarat;
         }
 
@@ -123,15 +128,28 @@ namespace ritaripeli
 		{
 			tavarat = new List<TavaraJaHinta>();
 
-			TavaraJaHinta tavara1 = new TavaraJaHinta(new Ruoka(), 10);
+			//luo aloittelija ruoka
+			TavaraJaHinta tavara1 = new TavaraJaHinta(
+				Ruoka.LuoAloittelijaAnnos(), Ruoka.LuoAloittelijaAnnos().PalautaHinta());
+            //luo perus ruoka
+            TavaraJaHinta tavara2 = new TavaraJaHinta(
+				Ruoka.LuoPerusAnnos(), Ruoka.LuoPerusAnnos().PalautaHinta());
+            //luo eliitti ruoka
+            TavaraJaHinta tavara3 = new TavaraJaHinta(
+				Ruoka.LuoEliittiAnnos(), Ruoka.LuoEliittiAnnos().PalautaHinta());
+
+			//lisää ruuat kauppaan
 			tavarat.Add(tavara1);
+			tavarat.Add(tavara2);
+			tavarat.Add(tavara3);
 		}
 		public List<TavaraJaHinta> ListaaTavarat()
 		{
 			for (int i = 0; i < tavarat.Count; i++)
 			{
-				Console.WriteLine($"{i + 1}: {tavarat[i].Esine} {tavarat[i].Hinta} kr");
-			}
+                Console.Write($"{i + 1}: {tavarat[i].Esine} ");
+                Print.LineColor($"{tavarat[i].Hinta} kr", ConsoleColor.Yellow);
+            }
 			return tavarat;
 		}
 

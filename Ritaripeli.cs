@@ -15,7 +15,7 @@ namespace ritaripeli
 		
 		public Ritaripeli()
 		{
-			pelaaja = new Ritari(aloitusOsumapisteet: 10, aloitusRahat: 10);
+			pelaaja = new Ritari(aloitusOsumapisteet: 10, aloitusRahat: 40);
 			hirviot = new List<Hirviö>();
 			// TODO luo erilaiset hirviöt
 
@@ -213,21 +213,21 @@ namespace ritaripeli
 					return;
 				}
 
-				var vahinko = tavara.Vahinko();
+				int vahinko = tavara.Vahinko();
 				vastustaja.OtaVahinkoa(vahinko); //vastusja saa vahingon
 				//viesti
 				Print.WriteColor($"{tavara} aiheuttaa vastustajalle", ConsoleColor.White);
 				Print.WriteColor($" {vahinko} ",ConsoleColor.Red);
-				Print.WriteColor("vahinkoa.", ConsoleColor.White);
+				Print.LineColor("vahinkoa.", ConsoleColor.White);
 			}
 			if (tavara.Parantava) //katsoo onko tavara parantava
 			{
-				var paranna = tavara.Paranna();
+				int paranna = tavara.Paranna();
 				pelaaja.SaaHipaa(paranna); //pelaaja saa parannuksen
                 //viesti
                 Print.WriteColor($"Ritari saa", ConsoleColor.White);
                 Print.WriteColor($" {paranna} ", ConsoleColor.Green);
-                Print.WriteColor("osumapistettä takaisin.", ConsoleColor.White);
+                Print.LineColor("osumapistettä takaisin.", ConsoleColor.White);
             }
 		}
 
